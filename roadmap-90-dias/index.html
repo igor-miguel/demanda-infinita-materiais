@@ -1,0 +1,316 @@
+<title>Roadmap 90 Dias</title>
+<meta name="description" content="Calendário dos 12 encontros semanais do programa Demanda Infinita, dos 7 pilares ao fechamento dos 90 dias." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F8F7F4;
+    --card:#ECEAE5;
+    --card-border:rgba(17,17,17,.08);
+    --ink:#111111;
+    --ink-soft:rgba(17,17,17,.64);
+    --ink-faint:rgba(17,17,17,.42);
+    --accent:#008E43;
+    --accent-soft:rgba(0,142,67,.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0F1310;
+      --card:#171C18;
+      --card-border:rgba(255,255,255,.09);
+      --ink:#F3F2EE;
+      --ink-soft:rgba(243,242,238,.66);
+      --ink-faint:rgba(243,242,238,.4);
+      --accent:#2ECC71;
+      --accent-soft:rgba(46,204,113,.16);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0F1310;
+    --card:#171C18;
+    --card-border:rgba(255,255,255,.09);
+    --ink:#F3F2EE;
+    --ink-soft:rgba(243,242,238,.66);
+    --ink-faint:rgba(243,242,238,.4);
+    --accent:#2ECC71;
+    --accent-soft:rgba(46,204,113,.16);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    padding-inline:20px;
+    padding-block:48px 64px;
+  }
+  h1,h2,h3,h4{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;margin:0;text-wrap:balance;}
+
+  .wrap{max-width:760px;margin:0 auto;}
+
+  /* header */
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--accent);
+  }
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  h1{font-size:clamp(30px,6vw,44px);font-weight:800;margin-top:10px;line-height:1.08;}
+  h1 .r{color:var(--accent);}
+  .lead{font-size:16px;color:var(--ink-soft);margin-top:14px;max-width:56ch;line-height:1.6;}
+
+  .stats{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;}
+  .stat{
+    flex:1 1 140px;background:var(--card);border:1px solid var(--card-border);
+    border-radius:14px;padding:16px 18px;
+  }
+  .stat b{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;}
+  .stat span{font-size:12px;color:var(--ink-faint);}
+
+  .period-note{
+    margin-top:14px;font-size:13px;color:var(--ink-faint);
+    display:flex;align-items:center;gap:6px;
+  }
+  .period-note b{color:var(--ink-soft);font-weight:600;}
+
+  /* sections */
+  .section-head{margin-top:56px;margin-bottom:18px;}
+  .section-head .eyebrow{margin-bottom:6px;}
+  .section-head h2{font-size:24px;font-weight:800;}
+
+  .intro-card{
+    background:var(--card);border:1px solid var(--card-border);border-radius:16px;
+    padding:20px 22px;font-size:14.5px;line-height:1.7;color:var(--ink-soft);
+  }
+  .intro-card strong{color:var(--ink);}
+
+  /* calendar */
+  .month{margin-top:40px;}
+  .month-head{
+    display:flex;align-items:baseline;gap:10px;
+    padding-bottom:10px;border-bottom:1px solid var(--card-border);margin-bottom:14px;
+  }
+  .month-head h3{font-size:18px;font-weight:700;}
+  .month-count{font-size:12.5px;color:var(--ink-faint);margin-left:auto;}
+
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+  .cal-dow{text-align:center;font-size:10.5px;font-weight:700;letter-spacing:.02em;color:var(--ink-faint);padding-bottom:4px;text-transform:uppercase;}
+  .cal-cell{
+    aspect-ratio:1;border-radius:9px;background:var(--card);border:1px solid var(--card-border);
+    display:flex;align-items:flex-start;justify-content:flex-start;padding:5px 6px;
+    font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink-soft);
+    position:relative;
+  }
+  .cal-cell.empty{background:transparent;border-color:transparent;}
+  .cal-cell.meeting{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:800;}
+  .cal-cell.meeting::after{
+    content:"";position:absolute;bottom:5px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--accent);
+  }
+
+  .legend{display:flex;flex-direction:column;gap:12px;margin-top:16px;}
+  .meet-card{
+    display:flex;gap:16px;
+    background:var(--card);border:1px solid var(--card-border);border-radius:16px;
+    padding:18px 20px;
+  }
+  .meet-date{
+    flex:none;width:52px;text-align:center;
+  }
+  .meet-date b{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:20px;color:var(--accent);line-height:1;}
+  .meet-date span{display:block;font-size:10px;color:var(--ink-faint);text-transform:uppercase;margin-top:3px;letter-spacing:.03em;}
+  .meet-body{flex:1;min-width:0;}
+  .meet-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px;}
+  .meet-label{font-size:12px;font-weight:600;color:var(--ink-faint);}
+  .meet-tag{font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--accent);}
+  .meet-title{font-size:17px;font-weight:700;margin-top:2px;}
+  .meet-desc{font-size:13.5px;color:var(--ink-soft);margin-top:5px;line-height:1.55;}
+  .meet-topics{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .meet-topics li{font-size:13.5px;color:var(--ink-soft);padding-left:16px;position:relative;line-height:1.5;}
+  .meet-topics li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent);}
+
+  /* compilado */
+  .compilado{
+    margin-top:56px;background:var(--card);border:1px solid var(--card-border);
+    border-radius:16px;padding:24px 24px 22px;
+  }
+  .compilado h2{font-size:19px;font-weight:800;margin-bottom:16px;}
+  .comp-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .comp-list li{font-size:13.5px;color:var(--ink-soft);padding-left:22px;position:relative;line-height:1.55;}
+  .comp-list li::before{content:"✓";position:absolute;left:0;top:0;color:var(--accent);font-weight:700;font-size:13px;}
+  .comp-foot{margin-top:18px;padding-top:16px;border-top:1px solid var(--card-border);font-size:13.5px;color:var(--ink);font-weight:600;}
+  .comp-foot b{color:var(--accent);}
+
+  footer{margin-top:40px;text-align:center;font-size:12px;color:var(--ink-faint);}
+
+  @media (max-width:480px){
+    .meet-card{padding:14px;gap:12px;}
+    .meet-date{width:42px;}
+    .meet-date b{font-size:17px;}
+    .cal-cell{font-size:10px;padding:4px 5px;}
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="eyebrow">Demanda Infinita</div>
+  <h1>Roadmap de <span class="r">90 dias.</span></h1>
+  <p class="lead">Calendário dos 12 encontros semanais — da fundação do posicionamento no LinkedIn ao fechamento comercial, com plano 100% personalizado para a sua operação.</p>
+
+  <div class="stats">
+    <div class="stat"><b>12</b><span>Encontros semanais</span></div>
+    <div class="stat"><b>90</b><span>Dias de implementação</span></div>
+    <div class="stat"><b>7</b><span>Pilares da metodologia</span></div>
+  </div>
+  <p class="period-note">Período de referência: <b>21 de setembro</b> a <b>07 de dezembro de 2026</b>, encontros semanais às segundas-feiras — ajuste a data de início real do kickoff e todo o calendário se desloca junto.</p>
+
+  <div class="section-head">
+    <div class="eyebrow">Visão geral</div>
+    <h2>Implementação junto, semana a semana.</h2>
+  </div>
+  <div class="intro-card">
+    Não é curso gravado, grupo de suporte ou mentoria genérica de LinkedIn. É <strong>implementação junto</strong>, um encontro por semana, até a operação de captação de leads B2B estar rodando de forma previsível. Os encontros seguem uma sequência fixa — <strong>kickoff → plano de ação → os 7 pilares → lapidação e análise</strong> — mas o ritmo e as decisões de cada etapa se ajustam ao seu caso.
+  </div>
+
+  <div class="section-head">
+    <div class="eyebrow">Calendário</div>
+    <h2>Os 12 encontros, mês a mês.</h2>
+  </div>
+
+  <div id="calendar"></div>
+
+  <div class="compilado">
+    <h2>O que os 90 dias entregam</h2>
+    <ul class="comp-list">
+      <li>Reunião de Onboarding + Plano de Ação personalizado</li>
+      <li>Posicionamento Magnético — perfil pronto para receber visita</li>
+      <li>Fundação, ICP e Oferta — base do seu negócio e do seu público</li>
+      <li>Claude Skills + Máquina de Conteúdo — conteúdo e materiais sob demanda</li>
+      <li>Funil de Vendas Demanda Infinita — do post à venda, de ponta a ponta</li>
+      <li>Automação e Integração — notificações, CRM e dashboard personalizado</li>
+      <li>Processo Comercial — scripts, cadência e treinamento completo</li>
+      <li>Lapidação e Análise — fechamento dos 90 dias com resultados em mãos</li>
+    </ul>
+    <div class="comp-foot"><b>12 encontros · 90 dias</b> · 1 plano 100% personalizado para a sua operação.</div>
+  </div>
+
+  <footer>Roadmap Demanda Infinita — baseado na proposta comercial vigente.</footer>
+
+</div>
+
+<script>
+(function(){
+  var DOW = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+  var MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+
+  var meetings = [
+    {date:[2026,9,21], semana:1, tag:"Kickoff", title:"Onboarding",
+      desc:"Primeiro contato oficial — alinhamento de expectativas e apresentação da operação.",
+      topics:["Reunião de kickoff e apresentação do time","Acesso às ferramentas e canais de comunicação","Alinhamento do formato dos encontros"]},
+    {date:[2026,9,28], semana:2, tag:"Início da contagem", title:"Plano de Ação",
+      desc:"Desenho do plano personalizado — é aqui que a contagem oficial dos 90 dias começa.",
+      topics:["Diagnóstico do momento atual (perfil, oferta, funil)","Definição das prioridades e sequência dos 7 pilares","Plano de ação individual para a operação"]},
+    {date:[2026,10,5], semana:3, tag:"Pilar 1 de 7", title:"Posicionamento Magnético",
+      desc:"Seu perfil precisa transmitir autoridade antes de gerar demanda.",
+      topics:["Ajuste de capa e foto","Reescrita da headline com autoridade e resultado claro","Reescrita da bio alinhada ao ICP","Ajuste de palavras-chave do perfil"]},
+    {date:[2026,10,12], semana:4, tag:"Pilar 2 de 7", title:"Fundação, ICP e Oferta",
+      desc:"A base de quem você fala e o que oferece.",
+      topics:["Ajuste fino do modelo de negócio","Definição clara do público-alvo (ICP)","Melhor forma de alcançar esse público","Criação ou ajuste de oferta — só entra se o caso precisar"]},
+    {date:[2026,10,19], semana:5, tag:"Pilar 3 de 7", title:"Claude Skills + Máquina de Conteúdo",
+      desc:"Você aciona a skill, o conteúdo sai pronto.",
+      topics:["Configuração da skill de criação de conteúdo","Skill de análise de crescimento","Skill de criação de materiais","Skill de busca de conteúdo e referências"]},
+    {date:[2026,10,26], semana:6, tag:"Pilar 4 de 7", title:"Funil de Vendas Demanda Infinita",
+      desc:"De ponta a ponta, do post à venda.",
+      topics:["LinkedIn + Claude Skill → tráfego","Comentário com palavra-chave → engajamento","DM automática → ativação","Formulário de qualificação → captura do lead"]},
+    {date:[2026,11,2], semana:7, tag:"Pilar 5 de 7", title:"Automação e Integração",
+      desc:"Notificações, CRM e dashboard rodando sozinhos.",
+      topics:["Notificações automáticas de lead novo (WhatsApp, e-mail, Discord/Slack)","Integração com o CRM já usado (Pipedrive e outros)","Configuração do dashboard personalizado em tempo real"]},
+    {date:[2026,11,9], semana:8, tag:"Pilar 6 de 7", title:"Processo Comercial",
+      desc:"Do primeiro contato ao fechamento.",
+      topics:["Treinamento comercial e script de pré-vendas","Script de reunião de vendas","Estrutura de follow-up e cadência (dia 1, 3, 7, 14, 21)","Roleplay de treinamento e manual de quebra de objeção"]},
+    {date:[2026,11,16], semana:9, tag:"Pilar 7 de 7 · 1/4", title:"Lapidação e Análise",
+      desc:"Início do fechamento dos 90 dias — revisão dos 6 pilares implementados.",
+      topics:["Revisão do que foi implementado até aqui","Primeiros ajustes finos na operação"]},
+    {date:[2026,11,23], semana:10, tag:"Pilar 7 de 7 · 2/4", title:"Lapidação e Análise",
+      desc:"Análise dos resultados gerados pela operação.",
+      topics:["Análise de leads, conversão e reuniões geradas","Ajustes no funil e no processo comercial"]},
+    {date:[2026,11,30], semana:11, tag:"Pilar 7 de 7 · 3/4", title:"Lapidação e Análise",
+      desc:"Últimos ajustes finos antes do fechamento.",
+      topics:["Refinamento do posicionamento e do conteúdo","Refinamento da automação e do dashboard"]},
+    {date:[2026,12,7], semana:12, tag:"Pilar 7 de 7 · 4/4", title:"Lapidação e Análise — Fechamento",
+      desc:"Fechamento oficial dos 90 dias, com resultados em mãos.",
+      topics:["Apresentação consolidada dos resultados","Fechamento dos 90 dias e definição dos próximos passos"]}
+  ];
+
+  function key(y,m){ return y+"-"+m; }
+  var byMonth = {};
+  var order = [];
+  meetings.forEach(function(mt){
+    var y = mt.date[0], m = mt.date[1];
+    var k = key(y,m);
+    if(!byMonth[k]){ byMonth[k] = {y:y,m:m,items:[]}; order.push(k); }
+    byMonth[k].items.push(mt);
+  });
+
+  var root = document.getElementById("calendar");
+
+  order.forEach(function(k){
+    var mo = byMonth[k];
+    var y = mo.y, m = mo.m;
+    var firstDow = new Date(y, m-1, 1).getDay();
+    var daysInMonth = new Date(y, m, 0).getDate();
+    var meetDays = {};
+    mo.items.forEach(function(mt){ meetDays[mt.date[2]] = mt; });
+
+    var monthEl = document.createElement("div");
+    monthEl.className = "month";
+
+    var head = document.createElement("div");
+    head.className = "month-head";
+    head.innerHTML = "<h3>"+MESES[m-1]+" "+y+"</h3><span class=\"month-count\">"+mo.items.length+" encontro"+(mo.items.length>1?"s":"")+"</span>";
+    monthEl.appendChild(head);
+
+    var grid = document.createElement("div");
+    grid.className = "cal-grid";
+    DOW.forEach(function(d){
+      var el = document.createElement("div");
+      el.className = "cal-dow";
+      el.textContent = d;
+      grid.appendChild(el);
+    });
+    for(var i=0;i<firstDow;i++){
+      var e = document.createElement("div");
+      e.className = "cal-cell empty";
+      grid.appendChild(e);
+    }
+    for(var d=1; d<=daysInMonth; d++){
+      var cell = document.createElement("div");
+      cell.className = "cal-cell" + (meetDays[d] ? " meeting" : "");
+      cell.textContent = d;
+      if(meetDays[d]){ cell.title = "Semana "+meetDays[d].semana+" · "+meetDays[d].title; }
+      grid.appendChild(cell);
+    }
+    monthEl.appendChild(grid);
+
+    var legend = document.createElement("div");
+    legend.className = "legend";
+    mo.items.forEach(function(mt){
+      var card = document.createElement("article");
+      card.className = "meet-card";
+      var topicsHtml = mt.topics.map(function(t){ return "<li>"+t+"</li>"; }).join("");
+      card.innerHTML =
+        "<div class=\"meet-date\"><b>"+mt.date[2]+"</b><span>"+DOW[new Date(mt.date[0],mt.date[1]-1,mt.date[2]).getDay()]+"</span></div>"+
+        "<div class=\"meet-body\">"+
+          "<div class=\"meet-meta\"><span class=\"meet-label\">Semana "+mt.semana+" · Encontro "+(mt.semana-1)+"</span><span class=\"meet-tag\">"+mt.tag+"</span></div>"+
+          "<h4 class=\"meet-title\">"+mt.title+"</h4>"+
+          "<p class=\"meet-desc\">"+mt.desc+"</p>"+
+          "<ul class=\"meet-topics\">"+topicsHtml+"</ul>"+
+        "</div>";
+      legend.appendChild(card);
+    });
+    monthEl.appendChild(legend);
+
+    root.appendChild(monthEl);
+  });
+})();
+</script>
