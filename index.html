@@ -136,10 +136,23 @@
   }
   .checklist-label{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);margin-top:14px;}
   .checklist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:7px;}
-  .checklist li{font-size:13.5px;color:var(--ink-soft);padding-left:24px;position:relative;line-height:1.5;}
+  .checklist li{
+    font-size:13.5px;color:var(--ink-soft);padding-left:24px;position:relative;line-height:1.5;
+    cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;
+  }
   .checklist li::before{
     content:"";position:absolute;left:0;top:1px;width:14px;height:14px;border:1.6px solid var(--accent);border-radius:4px;background:#fff;
+    transition:background .12s ease,border-color .12s ease;
   }
+  .checklist li::after{
+    content:"";position:absolute;left:3px;top:5px;width:8px;height:4px;
+    border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg);
+    opacity:0;transition:opacity .12s ease;
+  }
+  .checklist li[aria-checked="true"]::before{background:var(--accent);border-color:var(--accent);}
+  .checklist li[aria-checked="true"]::after{opacity:1;}
+  .checklist li[aria-checked="true"]{color:var(--ink-faint);text-decoration:line-through;}
+  .checklist li:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
 
   /* compilado */
   .compilado{
@@ -235,6 +248,22 @@
   var DOW = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
   var MESES = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
   var TIME_BADGE = "1h–1h30 encontro · 30min–1h execução";
+  var PAGE_ID = "roadmap-90dias";
+
+  function loadChecked(itemKey){
+    try{ return localStorage.getItem("di_"+PAGE_ID+"_"+itemKey) === "1"; }
+    catch(e){ return false; }
+  }
+  function saveChecked(itemKey, val){
+    try{ localStorage.setItem("di_"+PAGE_ID+"_"+itemKey, val ? "1" : "0"); }
+    catch(e){}
+  }
+  function toggleChecklistItem(li){
+    var checked = li.getAttribute("aria-checked") === "true";
+    var next = !checked;
+    li.setAttribute("aria-checked", next ? "true" : "false");
+    saveChecked(li.dataset.key, next);
+  }
 
   var pillars = [
     {n:1, name:"Posicionamento Magnético", desc:"Seu perfil precisa estar pronto para receber visita.", enc:"Encontro 3"},
@@ -351,7 +380,11 @@
     mo.items.forEach(function(mt){
       var card = document.createElement("article");
       card.className = "meet-card";
-      var checklistHtml = mt.checklist.map(function(t){ return "<li>"+t+"</li>"; }).join("");
+      var checklistHtml = mt.checklist.map(function(t, idx){
+        var itemKey = "e"+mt.encontro+"-"+idx;
+        var checked = loadChecked(itemKey);
+        return "<li role=\"checkbox\" tabindex=\"0\" data-key=\""+itemKey+"\" aria-checked=\""+(checked?"true":"false")+"\">"+t+"</li>";
+      }).join("");
       card.innerHTML =
         "<div class=\"meet-date\"><b>"+mt.date[2]+"</b><span>"+DOW[new Date(mt.date[0],mt.date[1]-1,mt.date[2]).getDay()]+"</span></div>"+
         "<div class=\"meet-body\">"+
@@ -363,6 +396,15 @@
           "<ul class=\"checklist\">"+checklistHtml+"</ul>"+
         "</div>";
       legend.appendChild(card);
+      card.querySelectorAll(".checklist li").forEach(function(li){
+        li.addEventListener("click", function(){ toggleChecklistItem(li); });
+        li.addEventListener("keydown", function(ev){
+          if(ev.key === "Enter" || ev.key === " "){
+            ev.preventDefault();
+            toggleChecklistItem(li);
+          }
+        });
+      });
     });
     monthEl.appendChild(legend);
 
